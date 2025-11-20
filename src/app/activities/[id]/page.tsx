@@ -16,16 +16,15 @@ interface Activity {
 // 根据ID获取单个活动详情
 async function getActivity(id: string): Promise<Activity | null> {
   try {
-    // 使用环境变量或相对路径
-    const baseUrl = process.env.VERCEL_URL 
-      ? `https://${process.env.VERCEL_URL}`
-      : 'http://localhost:3000';
+    // 使用固定URL确保线上环境正常工作
+    const baseUrl = 'https://kid-activity-platform.vercel.app';
     
     const response = await fetch(`${baseUrl}/api/activities/${id}`, {
       cache: 'no-store'
     });
     
     if (!response.ok) {
+      console.log('API响应失败:', response.status);
       return null;
     }
     
@@ -76,7 +75,9 @@ export default async function ActivityDetailPage({
               <span>📅 {activity.date}</span>
               <span>📍 {activity.location}</span>
               <span>👶 {activity.ageRange}</span>
-              <span className="text-2xl font-bold">¥{activity.price}</span>
+              <span className="text-2xl font-bold">
+                {activity.price === 0 ? '免费' : `¥${activity.price}`}
+              </span>
             </div>
           </div>
           

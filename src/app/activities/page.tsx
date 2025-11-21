@@ -20,6 +20,7 @@ async function getActivities(): Promise<Activity[]> {
   let client;
   try {
     if (!process.env.MONGODB_URI) {
+      console.log('MONGODB_URI 未设置');
       return [];
     }
 
@@ -28,6 +29,8 @@ async function getActivities(): Promise<Activity[]> {
     
     const db = client.db('kid-activity-platform');
     const activities = await db.collection('activities').find({}).toArray();
+    
+    console.log(`✅ 获取到 ${activities.length} 个活动`);
     
     // 将 MongoDB 的 _id 转换为字符串
     return activities.map(activity => ({
@@ -44,7 +47,7 @@ async function getActivities(): Promise<Activity[]> {
     }));
     
   } catch (error) {
-    console.error('获取数据错误:', error);
+    console.log('获取数据错误:', error);
     return [];
   } finally {
     if (client) {
@@ -52,6 +55,9 @@ async function getActivities(): Promise<Activity[]> {
     }
   }
 }
+
+// 重要：告诉 Next.js 这个页面是动态的
+export const dynamic = 'force-dynamic';
 
 export default async function ActivitiesPage() {
   const activities = await getActivities();

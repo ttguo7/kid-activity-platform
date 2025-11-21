@@ -15,14 +15,11 @@ interface Activity {
   status: string;
 }
 
-// 直接连接数据库获取数据，不通过API
+// 直接连接数据库获取数据
 async function getActivities(): Promise<Activity[]> {
   let client;
   try {
-    console.log('=== 🚨 服务器端直接获取数据 ===');
-    
     if (!process.env.MONGODB_URI) {
-      console.error('MONGODB_URI 未设置');
       return [];
     }
 
@@ -31,8 +28,6 @@ async function getActivities(): Promise<Activity[]> {
     
     const db = client.db('kid-activity-platform');
     const activities = await db.collection('activities').find({}).toArray();
-    
-    console.log(`✅ 直接获取到 ${activities.length} 个活动`);
     
     // 将 MongoDB 的 _id 转换为字符串
     return activities.map(activity => ({
@@ -49,7 +44,7 @@ async function getActivities(): Promise<Activity[]> {
     }));
     
   } catch (error) {
-    console.error('💥 直接获取数据错误:', error);
+    console.error('获取数据错误:', error);
     return [];
   } finally {
     if (client) {
@@ -59,89 +54,129 @@ async function getActivities(): Promise<Activity[]> {
 }
 
 export default async function ActivitiesPage() {
-  console.log('=== 🎬 页面组件开始渲染 ===');
   const activities = await getActivities();
-  console.log('📊 最终活动数据:', activities.length);
 
   return (
-    <div className="min-h-screen bg-gray-50 py-8">
+    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-purple-50 py-8">
       <div className="container mx-auto px-4">
-        <div className="flex justify-between items-center mb-8">
-          <h1 className="text-3xl font-bold text-gray-800">亲子活动</h1>
-          <Link 
-            href="/admin"
-            className="bg-green-500 text-white px-4 py-2 rounded-lg hover:bg-green-600 transition"
-          >
-            + 添加活动
-          </Link>
-        </div>
-        
-        {/* 调试信息 - 生产环境可以移除 */}
-        <div className="bg-yellow-100 border border-yellow-400 p-4 rounded-lg mb-6">
-          <h3 className="font-bold text-yellow-800">调试信息</h3>
-          <p>活动数量: {activities.length}</p>
-          <p>环境: {process.env.NODE_ENV}</p>
-          <p>数据获取方式: 直接数据库连接</p>
+        {/* 页面标题 */}
+        <div className="text-center mb-12">
+          <h1 className="text-4xl font-bold text-gray-800 mb-4">亲子活动</h1>
+          <p className="text-xl text-gray-600 max-w-2xl mx-auto">
+            发现适合您和孩子的精彩活动，创造美好回忆
+          </p>
         </div>
         
         {activities.length === 0 ? (
-          <div className="text-center py-12">
-            <div className="text-gray-400 text-6xl mb-4">📝</div>
-            <p className="text-gray-500 text-lg mb-2">暂无活动</p>
-            <p className="text-gray-400 mb-6">欢迎添加第一个亲子活动</p>
-            <Link 
-              href="/admin"
-              className="bg-blue-500 text-white px-6 py-3 rounded-lg hover:bg-blue-600 transition"
-            >
-              添加活动
-            </Link>
+          // 没有活动时的显示
+          <div className="text-center py-16 bg-white rounded-2xl shadow-lg max-w-md mx-auto">
+            <div className="text-6xl mb-6">👨‍👩‍👧‍👦</div>
+            <h3 className="text-2xl font-semibold text-gray-700 mb-4">暂无活动</h3>
+            <p className="text-gray-500 mb-8">我们正在筹备更多精彩活动，敬请期待！</p>
+            <div className="bg-yellow-50 border border-yellow-200 rounded-lg p-4 inline-block">
+              <p className="text-yellow-800 text-sm">管理员可前往管理后台添加活动</p>
+            </div>
           </div>
         ) : (
-          <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-            {activities.map((activity) => (
-              <div key={activity.id} className="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition">
-                <div className="p-6">
-                  <div className="flex justify-between items-start mb-2">
-                    <h2 className="text-xl font-semibold text-gray-800 flex-1">
-                      {activity.title}
-                    </h2>
-                    {activity.price === 0 && (
-                      <span className="bg-green-100 text-green-800 text-xs px-2 py-1 rounded ml-2">
-                        免费
-                      </span>
-                    )}
+          // 有活动时的显示
+          <div>
+            {/* 活动数量统计 */}
+            <div className="text-center mb-10">
+              <div className="inline-flex items-center bg-white rounded-full px-6 py-3 shadow-sm">
+                <span className="text-gray-600 mr-2">共找到</span>
+                <span className="text-2xl font-bold text-blue-600 mx-2">{activities.length}</span>
+                <span className="text-gray-600 ml-2">个精彩活动</span>
+              </div>
+            </div>
+            
+            {/* 活动卡片网格 */}
+            <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
+              {activities.map((activity) => (
+                <div 
+                  key={activity.id} 
+                  className="bg-white rounded-2xl shadow-lg overflow-hidden hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-1 border border-gray-100"
+                >
+                  {/* 图片区域 */}
+                  <div className="h-48 bg-gradient-to-br from-blue-200 to-purple-200 flex items-center justify-center relative">
+                    <span className="text-5xl">🎪</span>
+                    {/* 价格标签 */}
+                    <div className="absolute top-4 right-4">
+                      {activity.price === 0 ? (
+                        <span className="bg-green-500 text-white px-3 py-1 rounded-full text-sm font-bold shadow-lg">
+                          免费参与
+                        </span>
+                      ) : (
+                        <span className="bg-orange-500 text-white px-3 py-1 rounded-full text-sm font-bold shadow-lg">
+                          ¥{activity.price}
+                        </span>
+                      )}
+                    </div>
                   </div>
                   
-                  <p className="text-gray-600 mb-4 line-clamp-2">{activity.description}</p>
-                  
-                  <div className="space-y-2 text-sm text-gray-500">
-                    <div className="flex items-center">
-                      <span className="w-16 text-gray-400">📅</span>
-                      <span>{activity.date}</span>
+                  {/* 内容区域 */}
+                  <div className="p-6">
+                    {/* 标题和分类 */}
+                    <div className="mb-4">
+                      <h2 className="text-xl font-bold text-gray-900 mb-2 line-clamp-2 leading-tight">
+                        {activity.title}
+                      </h2>
+                      {activity.category && (
+                        <span className="inline-block bg-blue-100 text-blue-800 text-xs px-2 py-1 rounded">
+                          {activity.category}
+                        </span>
+                      )}
                     </div>
-                    <div className="flex items-center">
-                      <span className="w-16 text-gray-400">📍</span>
-                      <span className="flex-1">{activity.location}</span>
+                    
+                    {/* 描述 */}
+                    <p className="text-gray-600 mb-6 line-clamp-3 leading-relaxed">
+                      {activity.description}
+                    </p>
+                    
+                    {/* 活动信息 */}
+                    <div className="space-y-3 mb-6">
+                      <div className="flex items-center text-gray-700">
+                        <span className="w-8 text-lg">📅</span>
+                        <div>
+                          <div className="font-semibold text-sm">活动日期</div>
+                          <div className="text-gray-600">{activity.date}</div>
+                        </div>
+                      </div>
+                      
+                      <div className="flex items-center text-gray-700">
+                        <span className="w-8 text-lg">📍</span>
+                        <div className="flex-1">
+                          <div className="font-semibold text-sm">活动地点</div>
+                          <div className="text-gray-600 line-clamp-2">{activity.location}</div>
+                        </div>
+                      </div>
+                      
+                      <div className="flex items-center text-gray-700">
+                        <span className="w-8 text-lg">👶</span>
+                        <div>
+                          <div className="font-semibold text-sm">适合年龄</div>
+                          <div className="text-gray-600">{activity.ageRange}</div>
+                        </div>
+                      </div>
                     </div>
-                    <div className="flex items-center">
-                      <span className="w-16 text-gray-400">👶</span>
-                      <span>{activity.ageRange}</span>
-                    </div>
-                    <div className="flex justify-between items-center pt-2 border-t border-gray-100">
-                      <span className="text-lg font-bold text-green-600">
-                        {activity.price === 0 ? '免费' : `¥${activity.price}`}
-                      </span>
-                      <Link 
-                        href={`/activities/${activity.id}`}
-                        className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 transition text-sm"
-                      >
-                        查看详情
-                      </Link>
-                    </div>
+                    
+                    {/* 行动按钮 */}
+                    <Link 
+                      href={`/activities/${activity.id}`}
+                      className="block w-full bg-gradient-to-r from-blue-500 to-purple-600 text-white text-center py-3 rounded-xl hover:from-blue-600 hover:to-purple-700 transition-all duration-300 font-semibold shadow-md hover:shadow-lg"
+                    >
+                      查看详情 & 立即报名
+                    </Link>
                   </div>
                 </div>
-              </div>
-            ))}
+              ))}
+            </div>
+            
+            {/* 底部提示 */}
+            <div className="text-center mt-12">
+              <p className="text-gray-500 text-sm">
+                找不到想要的活动？ <span className="text-blue-500">联系我们</span> 定制专属亲子活动
+              </p>
+            </div>
           </div>
         )}
       </div>

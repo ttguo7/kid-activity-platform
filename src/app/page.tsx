@@ -1,21 +1,151 @@
-export default function Home() {
+import Link from 'next/link';
+
+export default function HomePage() {
   return (
-    <div className="flex min-h-screen flex-col items-center justify-center bg-gradient-to-br from-blue-50 to-green-50">
-      <div className="text-center">
-        <h1 className="text-5xl font-bold text-blue-600 mb-6">
-          Hello, 亲子活动平台!
-        </h1>
-        <p className="text-xl text-gray-600 mb-8">
-          我们的 MVP 开发之旅正式开始！🚀
-        </p>
-        <div className="bg-white rounded-lg shadow-md p-6 max-w-md mx-auto">
-          <p className="text-green-600 font-semibold">
-            ✅ Next.js 项目创建成功<br/>
-            ✅ Tailwind CSS 已配置<br/>
-            ✅ TypeScript 已就绪
+    <div className="min-h-screen">
+      {/* 英雄区域 */}
+      <section className="bg-gradient-to-br from-blue-900 via-blue-800 to-purple-900 text-white py-20">
+        <div className="container mx-auto px-4 text-center">
+          <h1 className="text-5xl md:text-6xl font-bold mb-6">
+            One-Stop Family Life Platform
+          </h1>
+          <p className="text-xl md:text-2xl text-blue-100 mb-8 max-w-3xl mx-auto">
+            一站式家庭服务解决方案，给孩子们一个完整的童年
           </p>
+          <div className="flex flex-col sm:flex-row justify-center space-y-4 sm:space-y-0 sm:space-x-6">
+            <Link 
+              href="/activities"
+              className="bg-yellow-400 text-blue-900 px-8 py-4 rounded-full font-bold text-lg hover:bg-yellow-500 transition shadow-lg"
+            >
+              Get Started
+            </Link>
+            <button className="border-2 border-white text-white px-8 py-4 rounded-full font-bold text-lg hover:bg-white hover:text-blue-900 transition">
+              Learn More
+            </button>
+          </div>
         </div>
-      </div>
+      </section>
+
+      {/* 分类网格 */}
+      <section className="py-16 bg-white">
+        <div className="container mx-auto px-4">
+          <h2 className="text-3xl font-bold text-center text-gray-800 mb-4">
+            Explore by Category
+          </h2>
+          <p className="text-gray-600 text-center mb-12 max-w-2xl mx-auto">
+            Discover the perfect activities for your family
+          </p>
+          
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 max-w-6xl mx-auto">
+            {[
+              { 
+                icon: '🎪', 
+                title: 'Park Activities', 
+                description: '户外公园活动与自然探索',
+                color: 'bg-blue-50',
+                textColor: 'text-blue-900'
+              },
+              { 
+                icon: '🌟', 
+                title: 'Faith Experiences', 
+                description: '文化与信仰体验活动',
+                color: 'bg-purple-50', 
+                textColor: 'text-purple-900'
+              },
+              { 
+                icon: '🔬', 
+                title: 'STEAM Education', 
+                description: '科学科技工程艺术数学',
+                color: 'bg-green-50',
+                textColor: 'text-green-900'
+              },
+              { 
+                icon: '📅', 
+                title: 'Weekend Ideas', 
+                description: '周末家庭活动推荐',
+                color: 'bg-yellow-50',
+                textColor: 'text-yellow-900'
+              }
+            ].map((category, index) => (
+              <div 
+                key={index} 
+                className={`${category.color} ${category.textColor} rounded-2xl p-8 text-center hover:shadow-xl transition-all duration-300 cursor-pointer border-2 border-transparent hover:border-${category.textColor.split('-')[1]}-200`}
+              >
+                <div className="text-5xl mb-4">{category.icon}</div>
+                <h3 className="text-xl font-bold mb-3">{category.title}</h3>
+                <p className="text-sm opacity-80">{category.description}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* 特色活动预览 */}
+      <section className="py-16 bg-gray-50">
+        <div className="container mx-auto px-4">
+          <div className="text-center mb-12">
+            <h2 className="text-3xl font-bold text-gray-800 mb-4">
+              Featured Family Activities
+            </h2>
+            <p className="text-gray-600 text-lg">
+              精选亲子活动，创造美好回忆
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-6xl mx-auto">
+            {[
+              {
+                title: '周末亲子烘焙课',
+                description: '一起制作美味饼干，培养孩子动手能力',
+                image: '🍪',
+                tag: 'Popular'
+              },
+              {
+                title: '自然探索之旅', 
+                description: '公园植物认知与户外探险活动',
+                image: '🌳',
+                tag: 'New'
+              },
+              {
+                title: '科学实验工作坊',
+                description: '有趣的物理化学实验，激发好奇心',
+                image: '🧪',
+                tag: 'Educational'
+              }
+            ].map((activity, index) => (
+              <div key={index} className="bg-white rounded-2xl shadow-lg overflow-hidden hover:shadow-2xl transition-all duration-300">
+                <div className="h-48 bg-gradient-to-br from-blue-200 to-purple-200 flex items-center justify-center relative">
+                  <span className="text-6xl">{activity.image}</span>
+                  <div className="absolute top-4 right-4">
+                    <span className="bg-yellow-400 text-blue-900 px-3 py-1 rounded-full text-sm font-bold">
+                      {activity.tag}
+                    </span>
+                  </div>
+                </div>
+                <div className="p-6">
+                  <h3 className="text-xl font-bold text-gray-900 mb-3">{activity.title}</h3>
+                  <p className="text-gray-600 mb-6">{activity.description}</p>
+                  <Link 
+                    href="/activities"
+                    className="block w-full bg-blue-900 text-white text-center py-3 rounded-lg hover:bg-blue-800 transition font-semibold"
+                  >
+                    探索更多
+                  </Link>
+                </div>
+              </div>
+            ))}
+          </div>
+
+          <div className="text-center mt-12">
+            <Link 
+              href="/activities"
+              className="inline-block bg-white border-2 border-blue-900 text-blue-900 px-8 py-3 rounded-full font-semibold hover:bg-blue-900 hover:text-white transition"
+            >
+              查看所有活动 →
+            </Link>
+          </div>
+        </div>
+      </section>
     </div>
   );
 }

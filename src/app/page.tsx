@@ -3,13 +3,15 @@ import Link from 'next/link';
 export default function HomePage() {
   return (
     <div className="min-h-screen">
-      {/* 英雄区域 - 大背景图片 + 左侧文字 */}
-      <section 
-        className="relative min-h-screen flex items-center justify-start bg-cover bg-center bg-no-repeat"
-        style={{
-          backgroundImage: 'url("https://kid-activity-platform.vercel.app/images/hero.jpg")',
-        }}
-      >
+      {/* 英雄区域 - 使用 img 标签确保图片显示 */}
+      <section className="relative min-h-screen flex items-center justify-start">
+        {/* 背景图片 - 使用 img 标签 */}
+        <img 
+          src="https://kid-activity-platform.vercel.app/images/hero.jpg" 
+          alt="Happy Kids Background"
+          className="absolute inset-0 w-full h-full object-cover"
+        />
+        
         {/* 深色遮罩层，确保文字可读性 */}
         <div className="absolute inset-0 bg-black bg-opacity-40"></div>
         

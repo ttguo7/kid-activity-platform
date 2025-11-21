@@ -1,7 +1,8 @@
-import Link from 'next/link';
-import { MongoClient } from 'mongodb';
+'use client';
 
-// 定义活动类型
+import { useState, useEffect } from 'react';
+import Link from 'next/link';
+
 interface Activity {
   id: string;
   title: string;
@@ -15,52 +16,72 @@ interface Activity {
   status: string;
 }
 
-// 直接连接数据库获取数据
-async function getActivities(): Promise<Activity[]> {
-  let client;
-  try {
-    if (!process.env.MONGODB_URI) {
-      console.log('MONGODB_URI 未设置');
-      return [];
-    }
+export default function ActivitiesPage() {
+  const [activities, setActivities] = useState<Activity[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
 
-    client = new MongoClient(process.env.MONGODB_URI);
-    await client.connect();
-    
-    const db = client.db('kid-activity-platform');
-    const activities = await db.collection('activities').find({}).toArray();
-    
-    console.log(`✅ 获取到 ${activities.length} 个活动`);
-    
-    // 将 MongoDB 的 _id 转换为字符串
-    return activities.map(activity => ({
-      id: activity._id.toString(),
-      title: activity.title || '',
-      description: activity.description || '',
-      date: activity.date || '',
-      location: activity.location || '',
-      ageRange: activity.ageRange || '',
-      price: activity.price || 0,
-      images: activity.images || [],
-      category: activity.category || '',
-      status: activity.status || 'active'
-    }));
-    
-  } catch (error) {
-    console.log('获取数据错误:', error);
-    return [];
-  } finally {
-    if (client) {
-      await client.close();
-    }
+  useEffect(() => {
+    const fetchActivities = async () => {
+      try {
+        setLoading(true);
+        setError(null);
+        
+        const response = await fetch('/api/activities');
+        
+        if (!response.ok) {
+          throw new Error(`获取数据失败: ${response.status}`);
+        }
+        
+        const result = await response.json();
+        
+        if (result.success) {
+          setActivities(result.data);
+        } else {
+          throw new Error(result.error || '获取数据失败');
+        }
+      } catch (err) {
+        console.error('获取活动数据错误:', err);
+        setError(err instanceof Error ? err.message : '未知错误');
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchActivities();
+  }, []);
+
+  if (loading) {
+    return (
+      <div className="min-h-screen bg-gradient-to-br from-blue-50 to-purple-50 py-8">
+        <div className="container mx-auto px-4">
+          <div className="text-center">
+            <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-500 mx-auto"></div>
+            <p className="mt-4 text-gray-600">加载中...</p>
+          </div>
+        </div>
+      </div>
+    );
   }
-}
 
-// 重要：告诉 Next.js 这个页面是动态的
-export const dynamic = 'force-dynamic';
-
-export default async function ActivitiesPage() {
-  const activities = await getActivities();
+  if (error) {
+    return (
+      <div className="min-h-screen bg-gradient-to-br from-blue-50 to-purple-50 py-8">
+        <div className="container mx-auto px-4">
+          <div className="bg-red-50 border border-red-200 rounded-xl p-6 text-center max-w-md mx-auto">
+            <h2 className="text-red-800 text-xl font-semibold mb-2">加载失败</h2>
+            <p className="text-red-600 mb-4">{error}</p>
+            <button
+              onClick={() => window.location.reload()}
+              className="bg-red-600 text-white px-4 py-2 rounded-lg hover:bg-red-700"
+            >
+              重新加载
+            </button>
+          </div>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 to-purple-50 py-8">

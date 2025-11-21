@@ -7,7 +7,7 @@ export default function HomePage() {
       <section 
         className="relative min-h-screen flex items-center justify-start bg-cover bg-center bg-no-repeat"
         style={{
-          backgroundImage: 'url("/images/hero.jpg")',
+          backgroundImage: 'url("https://kid-activity-platform.vercel.app/images/hero.jpg")',
         }}
       >
         {/* 深色遮罩层，确保文字可读性 */}

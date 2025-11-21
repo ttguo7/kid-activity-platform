@@ -3,25 +3,44 @@ import Link from 'next/link';
 export default function HomePage() {
   return (
     <div className="min-h-screen">
-      {/* 英雄区域 */}
-      <section className="bg-gradient-to-br from-blue-900 via-blue-800 to-purple-900 text-white py-20">
-        <div className="container mx-auto px-4 text-center">
-          <h1 className="text-5xl md:text-6xl font-bold mb-6">
-            One-Stop Family Life Platform
-          </h1>
-          <p className="text-xl md:text-2xl text-blue-100 mb-8 max-w-3xl mx-auto">
-            一站式家庭服务解决方案，给孩子们一个完整的童年
-          </p>
-          <div className="flex flex-col sm:flex-row justify-center space-y-4 sm:space-y-0 sm:space-x-6">
-            <Link 
-              href="/activities"
-              className="bg-yellow-400 text-blue-900 px-8 py-4 rounded-full font-bold text-lg hover:bg-yellow-500 transition shadow-lg"
-            >
-              Get Started
-            </Link>
-            <button className="border-2 border-white text-white px-8 py-4 rounded-full font-bold text-lg hover:bg-white hover:text-blue-900 transition">
-              Learn More
-            </button>
+      {/* 英雄区域 - 大背景图片 + 左侧文字 */}
+      <section 
+        className="relative min-h-screen flex items-center justify-start bg-cover bg-center bg-no-repeat"
+        style={{
+          backgroundImage: 'url("https://images.unsplash.com/photo-1516627145497-ae69578cf5d6?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2070&q=80")',
+        }}
+      >
+        {/* 深色遮罩层，确保文字可读性 */}
+        <div className="absolute inset-0 bg-black bg-opacity-40"></div>
+        
+        {/* 文字内容 - 左侧布局 */}
+        <div className="relative container mx-auto px-4 z-10">
+          <div className="max-w-2xl">
+            <h1 className="text-5xl md:text-6xl lg:text-7xl font-bold text-white mb-6 leading-tight">
+              Our
+              <br />
+              <span className="text-yellow-400">Exciting</span>
+              <br />
+              Kids Bootcamp
+              <br />
+              Program
+            </h1>
+            
+            <p className="text-xl text-white mb-8 opacity-90 max-w-lg">
+              一站式家庭服务解决方案，给孩子们一个完整的童年
+            </p>
+            
+            <div className="flex flex-col sm:flex-row space-y-4 sm:space-y-0 sm:space-x-6">
+              <Link 
+                href="/activities"
+                className="bg-yellow-400 text-blue-900 px-8 py-4 rounded-full font-bold text-lg hover:bg-yellow-500 transition shadow-lg text-center"
+              >
+                Get Started
+              </Link>
+              <button className="border-2 border-white text-white px-8 py-4 rounded-full font-bold text-lg hover:bg-white hover:text-blue-900 transition text-center">
+                Learn More
+              </button>
+            </div>
           </div>
         </div>
       </section>

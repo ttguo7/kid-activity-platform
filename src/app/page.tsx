@@ -3,24 +3,13 @@ import Link from 'next/link';
 export default function HomePage() {
   return (
     <div className="min-h-screen">
-      {/* 英雄区域 - 修复图片全屏显示 */}
-      <section className="relative min-h-screen flex items-center justify-start overflow-hidden">
-        {/* 背景图片 - 强制全屏样式 */}
-        <img 
-          src="https://kid-activity-platform.vercel.app/images/hero.jpg" 
-          alt="Happy Kids Background"
-          className="absolute inset-0 w-full h-full object-cover"
-          style={{
-            minWidth: '100%',
-            minHeight: '100%',
-            width: 'auto',
-            height: 'auto',
-            position: 'fixed',
-            top: 0,
-            left: 0,
-          }}
-        />
-        
+      {/* 英雄区域 - 使用 CSS 背景图片方案 */}
+      <section 
+        className="relative min-h-screen flex items-center justify-start bg-cover bg-center bg-no-repeat bg-fixed"
+        style={{
+          backgroundImage: 'url("https://kid-activity-platform.vercel.app/images/hero.jpg")',
+        }}
+      >
         {/* 深色遮罩层，确保文字可读性 */}
         <div className="absolute inset-0 bg-black bg-opacity-40"></div>
         
@@ -57,7 +46,7 @@ export default function HomePage() {
       </section>
 
       {/* 分类网格 */}
-      <section className="py-16 bg-white relative z-20">
+      <section className="py-16 bg-white">
         <div className="container mx-auto px-4">
           <h2 className="text-3xl font-bold text-center text-gray-800 mb-4">
             Explore by Category
@@ -111,7 +100,7 @@ export default function HomePage() {
       </section>
 
       {/* 特色活动预览 */}
-      <section className="py-16 bg-gray-50 relative z-20">
+      <section className="py-16 bg-gray-50">
         <div className="container mx-auto px-4">
           <div className="text-center mb-12">
             <h2 className="text-3xl font-bold text-gray-800 mb-4">

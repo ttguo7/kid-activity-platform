@@ -7,7 +7,7 @@ export default function HomePage() {
       <section 
         className="relative min-h-screen flex items-center justify-start bg-cover bg-center bg-no-repeat"
         style={{
-          backgroundImage: 'url("https://images.unsplash.com/photo-1516627145497-ae69578cf5d6?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2070&q=80")',
+          backgroundImage: 'url("/images/hero.jpg")',
         }}
       >
         {/* 深色遮罩层，确保文字可读性 */}

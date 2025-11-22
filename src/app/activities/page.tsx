@@ -3,23 +3,15 @@ import Link from 'next/link';
 export default function HomePage() {
   return (
     <div className="min-h-screen">
-      {/* 英雄区域 - 完全修复版 */}
-      <section className="relative min-h-screen flex items-center justify-start pt-20">
-        {/* 背景图片 - 使用绝对定位确保层级正确 */}
-        <div className="absolute inset-0 w-full h-full">
-          {/* 图片容器 */}
-          <div 
-            className="w-full h-full bg-cover bg-center bg-no-repeat"
-            style={{
-              backgroundImage: "url('/images/hero.jpg')"
-            }}
-          />
-          {/* 深色遮罩层 */}
-          <div className="absolute inset-0 bg-black bg-opacity-40"></div>
-        </div>
-        
-        {/* 文字内容 - 确保在背景之上 */}
-        <div className="relative z-20 container mx-auto px-4">
+      {/* 英雄区域 - 强制修复版 */}
+      <section 
+        className="relative min-h-screen flex items-center justify-start pt-20 bg-cover bg-center bg-no-repeat bg-fixed"
+        style={{
+          backgroundImage: "linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)), url('/images/hero.jpg')"
+        }}
+      >
+        {/* 文字内容 */}
+        <div className="container mx-auto px-4">
           <div className="max-w-2xl">
             <h1 className="text-5xl md:text-6xl lg:text-7xl font-bold text-white mb-6 leading-tight">
               Our
@@ -51,7 +43,7 @@ export default function HomePage() {
       </section>
 
       {/* 分类区域 */}
-      <section className="py-16 bg-white relative z-30">
+      <section className="py-16 bg-white">
         <div className="container mx-auto px-4">
           <h2 className="text-3xl font-bold text-center text-gray-800 mb-4">
             Explore by Category
@@ -105,7 +97,7 @@ export default function HomePage() {
       </section>
 
       {/* 特色活动区域 */}
-      <section className="py-16 bg-gray-50 relative z-30">
+      <section className="py-16 bg-gray-50">
         <div className="container mx-auto px-4">
           <div className="text-center mb-12">
             <h2 className="text-3xl font-bold text-gray-800 mb-4">

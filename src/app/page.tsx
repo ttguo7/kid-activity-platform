@@ -3,23 +3,19 @@ import Link from 'next/link';
 export default function HomePage() {
   return (
     <div className="min-h-screen">
-      {/* 英雄区域 - 使用 img 标签确保显示 */}
-      <section className="relative min-h-screen flex items-center justify-start overflow-hidden">
-        {/* 背景图片 - 使用 fixed 定位确保全屏覆盖 */}
+      {/* 英雄区域 - 从导航栏下方开始 */}
+      <section className="relative min-h-[calc(100vh-80px)] mt-20 flex items-center justify-start">
+        {/* 背景图片 */}
         <img 
           src="https://kid-activity-platform.vercel.app/images/hero.jpg"
           alt="Happy Kids Background"
-          className="fixed top-0 left-0 w-screen h-screen object-cover z-0"
-          style={{
-            minWidth: '100vw',
-            minHeight: '100vh',
-          }}
+          className="absolute inset-0 w-full h-full object-cover"
         />
         
-        {/* 深色遮罩层，确保文字可读性 */}
-        <div className="absolute inset-0 bg-black bg-opacity-40 z-1"></div>
+        {/* 深色遮罩层 */}
+        <div className="absolute inset-0 bg-black bg-opacity-40"></div>
         
-        {/* 文字内容 - 左侧布局 */}
+        {/* 文字内容 */}
         <div className="relative z-10 container mx-auto px-4">
           <div className="max-w-2xl">
             <h1 className="text-5xl md:text-6xl lg:text-7xl font-bold text-white mb-6 leading-tight">
@@ -51,8 +47,8 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* 分类网格 */}
-      <section className="py-16 bg-white relative z-20">
+      {/* 其余部分保持不变 */}
+      <section className="py-16 bg-white">
         <div className="container mx-auto px-4">
           <h2 className="text-3xl font-bold text-center text-gray-800 mb-4">
             Explore by Category
@@ -94,7 +90,7 @@ export default function HomePage() {
             ].map((category, index) => (
               <div 
                 key={index} 
-                className={`${category.color} ${category.textColor} rounded-2xl p-8 text-center hover:shadow-xl transition-all duration-300 cursor-pointer border-2 border-transparent hover:border-${category.textColor.split('-')[1]}-200`}
+                className={`${category.color} ${category.textColor} rounded-2xl p-8 text-center hover:shadow-xl transition-all duration-300 cursor-pointer`}
               >
                 <div className="text-5xl mb-4">{category.icon}</div>
                 <h3 className="text-xl font-bold mb-3">{category.title}</h3>
@@ -105,8 +101,7 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* 特色活动预览 */}
-      <section className="py-16 bg-gray-50 relative z-20">
+      <section className="py-16 bg-gray-50">
         <div className="container mx-auto px-4">
           <div className="text-center mb-12">
             <h2 className="text-3xl font-bold text-gray-800 mb-4">

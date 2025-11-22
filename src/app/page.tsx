@@ -3,17 +3,24 @@ import Link from 'next/link';
 export default function HomePage() {
   return (
     <div className="min-h-screen">
-      {/* 英雄区域 - 使用 CSS 背景图片方案 */}
-      <section 
-        className="relative min-h-screen flex items-center justify-start bg-cover bg-center bg-no-repeat bg-fixed"
-        style={{
-          backgroundImage: 'url("https://kid-activity-platform.vercel.app/images/hero.jpg")',
-        }}
-      >
-        {/* 深色遮罩层，确保文字可读性 */}
-        <div className="absolute inset-0 bg-black bg-opacity-40"></div>
+      {/* 英雄区域 - 使用分离的背景容器 */}
+      <section className="relative min-h-screen flex items-center justify-start">
+        {/* 背景图片容器 */}
+        <div 
+          className="absolute inset-0"
+          style={{
+            backgroundImage: 'url("https://kid-activity-platform.vercel.app/images/hero.jpg")',
+            backgroundSize: 'cover',
+            backgroundPosition: 'center',
+            backgroundRepeat: 'no-repeat',
+            backgroundAttachment: 'fixed',
+          }}
+        />
         
-        {/* 文字内容 - 左侧布局 */}
+        {/* 深色遮罩层 */}
+        <div className="absolute inset-0 bg-black bg-opacity-40" />
+        
+        {/* 文字内容 */}
         <div className="relative container mx-auto px-4 z-10">
           <div className="max-w-2xl">
             <h1 className="text-5xl md:text-6xl lg:text-7xl font-bold text-white mb-6 leading-tight">
@@ -45,7 +52,7 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* 分类网格 */}
+      {/* 其余部分保持不变 */}
       <section className="py-16 bg-white">
         <div className="container mx-auto px-4">
           <h2 className="text-3xl font-bold text-center text-gray-800 mb-4">
@@ -88,7 +95,7 @@ export default function HomePage() {
             ].map((category, index) => (
               <div 
                 key={index} 
-                className={`${category.color} ${category.textColor} rounded-2xl p-8 text-center hover:shadow-xl transition-all duration-300 cursor-pointer border-2 border-transparent hover:border-${category.textColor.split('-')[1]}-200`}
+                className={`${category.color} ${category.textColor} rounded-2xl p-8 text-center hover:shadow-xl transition-all duration-300 cursor-pointer`}
               >
                 <div className="text-5xl mb-4">{category.icon}</div>
                 <h3 className="text-xl font-bold mb-3">{category.title}</h3>
@@ -99,7 +106,6 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* 特色活动预览 */}
       <section className="py-16 bg-gray-50">
         <div className="container mx-auto px-4">
           <div className="text-center mb-12">

@@ -5,3 +5,17 @@ body {
   padding: 0;
   font-family: Arial, Helvetica, sans-serif;
 }
+/* 修复导航栏布局 */
+main {
+  padding-top: 80px;
+}
+
+nav {
+  height: 80px !important;
+}
+
+/* 确保首页背景图片不被覆盖 */
+.hero-section {
+  padding-top: 0;
+  margin-top: 0;
+}

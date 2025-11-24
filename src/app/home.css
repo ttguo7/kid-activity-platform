@@ -368,3 +368,156 @@
     padding: 3rem 0;
   }
 }
+/* 导航栏基础样式 */
+.nav-container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 1000;
+  padding: 1rem 0;
+  transition: all 0.3s ease;
+}
+
+.nav-content {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 1rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+/* Logo样式 */
+.logo {
+  display: flex;
+  align-items: center;
+  text-decoration: none;
+  gap: 0.5rem;
+}
+
+.logo-image {
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.logo-img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+.logo-text {
+  font-size: 1.5rem;
+  font-weight: bold;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* 导航链接 */
+.nav-links {
+  display: none;
+  gap: 2rem;
+}
+
+.nav-link {
+  color: white;
+  text-decoration: none;
+  font-weight: 600;
+  padding: 0.5rem 1rem;
+  border-radius: 25px;
+  transition: all 0.3s ease;
+  position: relative;
+}
+
+.nav-link:hover {
+  transform: translateY(-2px);
+}
+
+/* 移动端菜单按钮 */
+.menu-button {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0.5rem;
+}
+
+.menu-button span {
+  width: 25px;
+  height: 3px;
+  background: white;
+  border-radius: 2px;
+  transition: all 0.3s ease;
+}
+
+/* 移动端菜单 */
+.mobile-menu {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  background: inherit;
+  backdrop-filter: blur(10px);
+  border-top: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.mobile-link {
+  display: block;
+  color: white;
+  text-decoration: none;
+  padding: 1rem 2rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  transition: all 0.3s ease;
+}
+
+.mobile-link:hover {
+  background: rgba(255, 255, 255, 0.1);
+}
+
+/* ========== 方案1：渐变彩虹色 ========== */
+.rainbow-nav {
+  background: linear-gradient(
+    135deg,
+    #ff9a9e 0%,    /* 粉色 */
+    #fad0c4 25%,   /* 浅橙 */
+    #fbc2eb 50%,   /* 浅粉紫 */
+    #a6c1ee 75%,   /* 浅蓝 */
+    #a1c4fd 100%   /* 天蓝 */
+  );
+  box-shadow: 0 4px 20px rgba(255, 154, 158, 0.3);
+}
+
+.rainbow-nav .nav-link {
+  background: rgba(255, 255, 255, 0.2);
+  backdrop-filter: blur(10px);
+}
+
+.rainbow-nav .nav-link:hover {
+  background: rgba(255, 255, 255, 0.3);
+  box-shadow: 0 4px 15px rgba(255, 255, 255, 0.3);
+}
+
+/* 响应式设计 */
+@media (min-width: 768px) {
+  .nav-links {
+    display: flex;
+  }
+  
+  .menu-button {
+    display: none;
+  }
+}
+
+/* 滚动时的导航栏效果 */
+.nav-container.scrolled {
+  padding: 0.5rem 0;
+  backdrop-filter: blur(10px);
+}

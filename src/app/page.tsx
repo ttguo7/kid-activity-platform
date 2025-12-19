@@ -13,13 +13,9 @@ export default function HomePage() {
         <div className="hero-content">
           <div className="content-wrapper">
             <h1 className="hero-title">
-              Our
+              Family Memories
               <br />
-              <span className="hero-highlight">Exciting</span>
-              <br />
-              Kids Bootcamp
-              <br />
-              Program
+              <span className="hero-highlight">Made Easy</span>
             </h1>
             
             <p className="hero-description">

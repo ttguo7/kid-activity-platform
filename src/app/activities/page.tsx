@@ -1,4 +1,5 @@
 import Link from 'next/link';
+import Image from 'next/image';
 
 interface Activity {
   id: string;
@@ -8,6 +9,7 @@ interface Activity {
   location: string;
   ageRange: string;
   price: number;
+  images: string[];
   category: string;
   status: string;
 }
@@ -57,15 +59,37 @@ export default async function ActivitiesPage() {
           </div>
         ) : (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-6xl mx-auto">
-            {activities.map((activity) => (
+            {activities.map((activity) => {
+              // 检查是否有图片
+              const hasImage = activity.images && activity.images.length > 0;
+              const firstImage = hasImage ? activity.images[0] : null;
+              const isWebsiteUrl = firstImage && firstImage.startsWith('http') && 
+                !firstImage.match(/\.(jpg|jpeg|png|gif|webp|svg)(\?|$)/i);
+              
+              return (
               <div key={activity.id} className="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow">
-                <div className="h-48 bg-gradient-to-br from-blue-200 to-purple-200 flex items-center justify-center">
-                  <span className="text-4xl">
-                    {activity.category === '户外' ? '🌳' : 
-                     activity.category === '艺术' ? '🎨' : 
-                     activity.category === '科学' ? '🔬' : '🌟'}
-                  </span>
-                </div>
+                {hasImage && !isWebsiteUrl ? (
+                  // 如果有实际图片URL，显示图片
+                  <div className="relative w-full h-48">
+                    <Image
+                      src={firstImage}
+                      alt={activity.title}
+                      fill
+                      className="object-cover"
+                      sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                    />
+                  </div>
+                ) : (
+                  // 如果没有图片或只有网站URL，显示默认图标
+                  <div className="h-48 bg-gradient-to-br from-blue-200 to-purple-200 flex items-center justify-center">
+                    <span className="text-4xl">
+                      {activity.category === '户外' || activity.category === '户外运动' ? '🌳' : 
+                       activity.category === '艺术' || activity.category === '艺术文化' ? '🎨' : 
+                       activity.category === '科学' || activity.category === 'STEM' ? '🔬' : 
+                       activity.category === '节日庆典' ? '🎉' : '🌟'}
+                    </span>
+                  </div>
+                )}
                 
                 <div className="p-6">
                   <div className="flex justify-between items-start mb-3">
@@ -100,7 +124,8 @@ export default async function ActivitiesPage() {
                   </Link>
                 </div>
               </div>
-            ))}
+            );
+            })}
           </div>
         )}
 

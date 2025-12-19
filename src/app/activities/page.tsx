@@ -15,10 +15,14 @@ interface Activity {
 }
 
 // 获取活动列表
-async function getActivities(): Promise<Activity[]> {
+async function getActivities(category?: string): Promise<Activity[]> {
   try {
     const baseUrl = 'https://kid-activity-platform.vercel.app';
-    const response = await fetch(`${baseUrl}/api/activities`, {
+    const url = category 
+      ? `${baseUrl}/api/activities?category=${encodeURIComponent(category)}`
+      : `${baseUrl}/api/activities`;
+    
+    const response = await fetch(url, {
       cache: 'no-store'
     });
     
@@ -35,18 +39,36 @@ async function getActivities(): Promise<Activity[]> {
   }
 }
 
-export default async function ActivitiesPage() {
-  const activities = await getActivities();
+export default async function ActivitiesPage({
+  searchParams
+}: {
+  searchParams: Promise<{ category?: string }>
+}) {
+  const params = await searchParams;
+  const category = params?.category;
+  const activities = await getActivities(category);
 
   return (
     <div className="min-h-screen bg-gray-50 py-8">
       <div className="container mx-auto px-4">
         {/* 页面头部 */}
         <div className="text-center mb-12">
-          <h1 className="text-4xl font-bold text-gray-800 mb-4">所有活动</h1>
+          <h1 className="text-4xl font-bold text-gray-800 mb-4">
+            {category ? `${category}活动` : '所有活动'}
+          </h1>
           <p className="text-gray-600 text-lg max-w-2xl mx-auto">
-            发现适合您家庭的精彩亲子活动
+            {category 
+              ? `发现${category}相关的精彩亲子活动`
+              : '发现适合您家庭的精彩亲子活动'}
           </p>
+          {category && (
+            <Link 
+              href="/activities" 
+              className="inline-block mt-4 text-blue-600 hover:underline"
+            >
+              ← 查看所有活动
+            </Link>
+          )}
         </div>
 
         {/* 活动列表 */}

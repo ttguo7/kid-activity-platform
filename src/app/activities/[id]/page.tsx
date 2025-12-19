@@ -138,7 +138,52 @@ export default async function ActivityDetailPage({
             <div className="grid md:grid-cols-3 gap-8">
               <div className="md:col-span-2">
                 <h2 className="text-xl font-semibold mb-4">活动介绍</h2>
-                <p className="text-gray-700 leading-relaxed whitespace-pre-line">{activity.description}</p>
+                <p className="text-gray-700 leading-relaxed whitespace-pre-line mb-6">{activity.description}</p>
+                
+                {/* 活动图片展示 - 在活动介绍板块中 */}
+                {activity.images && activity.images.length > 0 && (
+                  <div className="mt-6 mb-8">
+                    <h3 className="text-lg font-semibold mb-4 text-gray-800">活动图片</h3>
+                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+                      {activity.images.map((imageUrl, index) => {
+                        // 检查是否是网站URL（以http开头且不是图片文件扩展名）
+                        const isWebsiteUrl = imageUrl.startsWith('http') && 
+                          !imageUrl.match(/\.(jpg|jpeg|png|gif|webp|svg)(\?|$)/i);
+                        
+                        if (isWebsiteUrl) {
+                          // 如果是网站URL，显示为链接卡片
+                          return (
+                            <a
+                              key={index}
+                              href={imageUrl}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              className="block bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow border-2 border-blue-200 p-4"
+                            >
+                              <div className="text-center">
+                                <div className="text-4xl mb-2">🔗</div>
+                                <p className="text-sm text-gray-600 font-medium">查看官网</p>
+                              </div>
+                            </a>
+                          );
+                        } else {
+                          // 如果是图片URL，使用Image组件显示
+                          return (
+                            <div key={index} className="relative w-full aspect-square rounded-lg overflow-hidden shadow-md hover:shadow-lg transition-shadow">
+                              <Image
+                                src={imageUrl}
+                                alt={`${activity.title} - 图片 ${index + 1}`}
+                                fill
+                                className="object-cover"
+                                sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+                              />
+                            </div>
+                          );
+                        }
+                      })}
+                    </div>
+                  </div>
+                )}
                 
                 <div className="mt-8 p-4 bg-blue-50 rounded-lg">
                   <h3 className="font-semibold mb-2">活动亮点</h3>

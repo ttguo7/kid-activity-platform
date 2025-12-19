@@ -52,35 +52,40 @@ export default function HomePage() {
                 icon: '🎪', 
                 title: 'Park Activities', 
                 description: '户外公园活动与自然探索',
-                color: 'category-blue'
+                color: 'category-blue',
+                href: '/activities'
               },
               { 
                 icon: '🌟', 
                 title: 'Faith Experiences', 
                 description: '文化与信仰体验活动',
-                color: 'category-purple'
+                color: 'category-purple',
+                href: '/activities?category=文化与信仰'
               },
               { 
                 icon: '🔬', 
                 title: 'STEAM Education', 
                 description: '科学科技工程艺术数学',
-                color: 'category-green'
+                color: 'category-green',
+                href: '/activities'
               },
               { 
                 icon: '📅', 
                 title: 'Weekend Ideas', 
                 description: '周末家庭活动推荐',
-                color: 'category-yellow'
+                color: 'category-yellow',
+                href: '/activities'
               }
             ].map((category, index) => (
-              <div 
-                key={index} 
+              <Link
+                key={index}
+                href={category.href}
                 className={`category-card ${category.color}`}
               >
                 <div className="category-icon">{category.icon}</div>
                 <h3 className="category-title">{category.title}</h3>
                 <p className="category-description">{category.description}</p>
-              </div>
+              </Link>
             ))}
           </div>
         </div>

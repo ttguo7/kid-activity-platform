@@ -1,14 +1,21 @@
 import { MongoClient } from 'mongodb'
 
-export async function GET() {
+export async function GET(request) {
   let client;
   try {
+    // 获取查询参数
+    const { searchParams } = new URL(request.url);
+    const category = searchParams.get('category');
+    
     // 连接数据库
     client = new MongoClient(process.env.MONGODB_URI);
     await client.connect();
     
     const db = client.db('kid-activity-platform');
-    const activities = await db.collection('activities').find({}).toArray();
+    
+    // 根据分类筛选活动
+    const query = category ? { category: category } : {};
+    const activities = await db.collection('activities').find(query).toArray();
     
     // 将 MongoDB 的 _id 转换为字符串
     const formattedActivities = activities.map(activity => ({

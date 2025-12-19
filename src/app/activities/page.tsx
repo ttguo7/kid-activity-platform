@@ -87,14 +87,15 @@ export default async function ActivitiesPage({
               const firstImage = hasImage ? activity.images[0] : null;
               const isWebsiteUrl = firstImage && firstImage.startsWith('http') && 
                 !firstImage.match(/\.(jpg|jpeg|png|gif|webp|svg)(\?|$)/i);
+              const isValidImageUrl = firstImage && !isWebsiteUrl;
               
               return (
               <div key={activity.id} className="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow">
-                {hasImage && !isWebsiteUrl ? (
+                {isValidImageUrl ? (
                   // 如果有实际图片URL，显示图片
                   <div className="relative w-full h-48">
                     <Image
-                      src={firstImage}
+                      src={firstImage as string}
                       alt={activity.title}
                       fill
                       className="object-cover"

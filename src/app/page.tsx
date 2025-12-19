@@ -23,7 +23,7 @@ export default function HomePage() {
             </h1>
             
             <p className="hero-description">
-              一站式家庭服务解决方案，给孩子们一个完整的童年
+              One-stop family service solutions for a complete childhood
             </p>
             
             <div className="hero-buttons">
@@ -51,28 +51,28 @@ export default function HomePage() {
               { 
                 icon: '🎪', 
                 title: 'Park Activities', 
-                description: '户外公园活动与自然探索',
+                description: 'Outdoor park activities and nature exploration',
                 color: 'category-blue',
                 href: '/activities'
               },
               { 
                 icon: '🌟', 
                 title: 'Faith Experiences', 
-                description: '文化与信仰体验活动',
+                description: 'Cultural and faith experience activities',
                 color: 'category-purple',
                 href: '/activities?category=文化与信仰'
               },
               { 
                 icon: '🔬', 
                 title: 'STEAM Education', 
-                description: '科学科技工程艺术数学',
+                description: 'Science, Technology, Engineering, Arts, and Mathematics',
                 color: 'category-green',
                 href: '/activities'
               },
               { 
                 icon: '📅', 
                 title: 'Weekend Ideas', 
-                description: '周末家庭活动推荐',
+                description: 'Weekend family activity recommendations',
                 color: 'category-yellow',
                 href: '/activities'
               }
@@ -97,27 +97,27 @@ export default function HomePage() {
           <div className="section-header">
             <h2 className="section-title">Featured Family Activities</h2>
             <p className="section-description">
-              精选亲子活动，创造美好回忆
+              Curated family activities to create wonderful memories
             </p>
           </div>
 
           <div className="activities-grid">
             {[
               {
-                title: '周末亲子烘焙课',
-                description: '一起制作美味饼干，培养孩子动手能力',
+                title: 'Weekend Family Baking Class',
+                description: 'Make delicious cookies together and develop children\'s hands-on skills',
                 image: '🍪',
                 tag: 'Popular'
               },
               {
-                title: '自然探索之旅', 
-                description: '公园植物认知与户外探险活动',
+                title: 'Nature Exploration Journey', 
+                description: 'Park plant recognition and outdoor adventure activities',
                 image: '🌳',
                 tag: 'New'
               },
               {
-                title: '科学实验工作坊',
-                description: '有趣的物理化学实验，激发好奇心',
+                title: 'Science Experiment Workshop',
+                description: 'Fun physics and chemistry experiments to spark curiosity',
                 image: '🧪',
                 tag: 'Educational'
               }
@@ -133,7 +133,7 @@ export default function HomePage() {
                   <h3 className="activity-title">{activity.title}</h3>
                   <p className="activity-description">{activity.description}</p>
                   <Link href="/activities" className="activity-button">
-                    探索更多
+                    Explore More
                   </Link>
                 </div>
               </div>
@@ -142,7 +142,7 @@ export default function HomePage() {
 
           <div className="text-center">
             <Link href="/activities" className="view-all-button">
-              查看所有活动 →
+              View All Activities →
             </Link>
           </div>
         </div>

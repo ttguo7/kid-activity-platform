@@ -54,19 +54,19 @@ export default async function ActivitiesPage({
         {/* 页面头部 */}
         <div className="text-center mb-12">
           <h1 className="text-4xl font-bold text-gray-800 mb-4">
-            {category ? `${category}活动` : '所有活动'}
+            {category ? `${category} Activities` : 'All Activities'}
           </h1>
           <p className="text-gray-600 text-lg max-w-2xl mx-auto">
             {category 
-              ? `发现${category}相关的精彩亲子活动`
-              : '发现适合您家庭的精彩亲子活动'}
+              ? `Discover exciting family activities related to ${category}`
+              : 'Discover the perfect activities for your family'}
           </p>
           {category && (
             <Link 
               href="/activities" 
               className="inline-block mt-4 text-blue-600 hover:underline"
             >
-              ← 查看所有活动
+              ← View All Activities
             </Link>
           )}
         </div>
@@ -74,28 +74,26 @@ export default async function ActivitiesPage({
         {/* 活动列表 */}
         {activities.length === 0 ? (
           <div className="text-center py-12">
-            <p className="text-gray-500 text-lg">暂无活动数据</p>
+            <p className="text-gray-500 text-lg">No activities available</p>
             <Link href="/admin" className="text-blue-500 hover:underline mt-4 inline-block">
-              去管理后台添加活动
+              Go to Admin Panel to Add Activities
             </Link>
           </div>
         ) : (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-6xl mx-auto">
             {activities.map((activity) => {
-              // 检查是否有图片
+              // 检查是否有图片，从活动图片数组中任意选取一张
               const hasImage = activity.images && activity.images.length > 0;
-              const firstImage = hasImage ? activity.images[0] : null;
-              const isWebsiteUrl = firstImage && firstImage.startsWith('http') && 
-                !firstImage.match(/\.(jpg|jpeg|png|gif|webp|svg)(\?|$)/i);
-              const isValidImageUrl = firstImage && !isWebsiteUrl;
+              // 如果有图片，选择第一张；如果没有，选择随机一张（这里就选第一张）
+              const displayImage = hasImage ? activity.images[0] : null;
               
               return (
               <div key={activity.id} className="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow">
-                {isValidImageUrl ? (
-                  // 如果有实际图片URL，显示图片
+                {displayImage ? (
+                  // 如果有图片，直接显示图片（Unsplash等图片URL可以直接使用）
                   <div className="relative w-full h-48">
                     <Image
-                      src={firstImage as string}
+                      src={displayImage}
                       alt={activity.title}
                       fill
                       className="object-cover"
@@ -103,7 +101,7 @@ export default async function ActivitiesPage({
                     />
                   </div>
                 ) : (
-                  // 如果没有图片或只有网站URL，显示默认图标
+                  // 如果没有图片，显示默认图标
                   <div className="h-48 bg-gradient-to-br from-blue-200 to-purple-200 flex items-center justify-center">
                     <span className="text-4xl">
                       {activity.category === '户外' || activity.category === '户外运动' ? '🌳' : 
@@ -118,7 +116,7 @@ export default async function ActivitiesPage({
                   <div className="flex justify-between items-start mb-3">
                     <h2 className="text-xl font-bold text-gray-800">{activity.title}</h2>
                     <span className="bg-blue-100 text-blue-800 px-2 py-1 rounded text-sm font-medium">
-                      {activity.price === 0 ? '免费' : `¥${activity.price}`}
+                      {activity.price === 0 ? 'Free' : `$${activity.price}`}
                     </span>
                   </div>
                   
@@ -143,7 +141,7 @@ export default async function ActivitiesPage({
                     href={`/activities/${activity.id}`}
                     className="block w-full bg-blue-600 text-white text-center py-2 px-4 rounded hover:bg-blue-700 transition font-medium"
                   >
-                    查看详情
+                    View Details
                   </Link>
                 </div>
               </div>
@@ -158,7 +156,7 @@ export default async function ActivitiesPage({
             href="/"
             className="inline-block bg-gray-200 text-gray-700 px-6 py-2 rounded-lg hover:bg-gray-300 transition"
           >
-            ← 返回首页
+            ← Back to Home
           </Link>
         </div>
       </div>

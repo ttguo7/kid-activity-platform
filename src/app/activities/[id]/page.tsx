@@ -51,10 +51,10 @@ export default async function ActivityDetailPage({
     return (
       <div className="min-h-screen bg-gray-50 py-8">
         <div className="container mx-auto px-4 text-center">
-          <h1 className="text-2xl font-bold text-gray-800 mb-4">活动不存在</h1>
-          <p className="text-gray-600 mb-2">请求的ID: {id}</p>
+          <h1 className="text-2xl font-bold text-gray-800 mb-4">Activity Not Found</h1>
+          <p className="text-gray-600 mb-2">Requested ID: {id}</p>
           <Link href="/activities" className="text-blue-500 hover:underline">
-            返回活动列表
+            Back to Activities
           </Link>
         </div>
       </div>
@@ -65,7 +65,7 @@ export default async function ActivityDetailPage({
     <div className="min-h-screen bg-gray-50 py-8">
       <div className="container mx-auto px-4 max-w-4xl">
         <Link href="/activities" className="text-blue-500 hover:underline mb-6 inline-block">
-          ← 返回活动列表
+          ← Back to Activities
         </Link>
         
         <div className="bg-white rounded-lg shadow-md overflow-hidden">
@@ -77,7 +77,7 @@ export default async function ActivityDetailPage({
               <span>📍 {activity.location}</span>
               <span>👶 {activity.ageRange}</span>
               <span className="text-2xl font-bold">
-                {activity.price === 0 ? '免费' : `¥${activity.price}`}
+                {activity.price === 0 ? 'Free' : `$${activity.price}`}
               </span>
             </div>
           </div>
@@ -86,13 +86,13 @@ export default async function ActivityDetailPage({
           <div className="p-8">
             <div className="grid md:grid-cols-3 gap-8">
               <div className="md:col-span-2">
-                <h2 className="text-xl font-semibold mb-4">活动介绍</h2>
+                <h2 className="text-xl font-semibold mb-4">Activity Description</h2>
                 <p className="text-gray-700 leading-relaxed whitespace-pre-line mb-6">{activity.description}</p>
                 
                 {/* 活动图片展示 - 在活动介绍板块中，直接显示图片 */}
                 {activity.images && activity.images.length > 0 && (
                   <div className="mt-6 mb-8">
-                    <h3 className="text-lg font-semibold mb-4 text-gray-800">活动图片</h3>
+                    <h3 className="text-lg font-semibold mb-4 text-gray-800">Activity Images</h3>
                     <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
                       {activity.images.map((imageUrl, index) => {
                         // 直接显示图片，不再检查是否为网站URL
@@ -100,7 +100,7 @@ export default async function ActivityDetailPage({
                           <div key={index} className="relative w-full aspect-square rounded-lg overflow-hidden shadow-md hover:shadow-lg transition-shadow">
                             <Image
                               src={imageUrl}
-                              alt={`${activity.title} - 图片 ${index + 1}`}
+                              alt={`${activity.title} - Image ${index + 1}`}
                               fill
                               className="object-cover"
                               sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
@@ -113,37 +113,37 @@ export default async function ActivityDetailPage({
                 )}
                 
                 <div className="mt-8 p-4 bg-blue-50 rounded-lg">
-                  <h3 className="font-semibold mb-2">活动亮点</h3>
+                  <h3 className="font-semibold mb-2">Activity Highlights</h3>
                   <ul className="list-disc list-inside space-y-1 text-gray-700">
-                    <li>专业教师指导</li>
-                    <li>安全的活动环境</li>
-                    <li>丰富的互动环节</li>
-                    <li>培养孩子创造力</li>
+                    <li>Professional instructor guidance</li>
+                    <li>Safe activity environment</li>
+                    <li>Rich interactive sessions</li>
+                    <li>Foster children's creativity</li>
                   </ul>
                 </div>
               </div>
               
               <div className="space-y-6">
                 <div className="bg-gray-50 p-4 rounded-lg">
-                  <h3 className="font-semibold mb-3">活动信息</h3>
+                  <h3 className="font-semibold mb-3">Activity Information</h3>
                   <div className="space-y-2 text-sm">
-                    <p><span className="font-medium">分类:</span> {activity.category || '亲子活动'}</p>
-                    <p><span className="font-medium">适合年龄:</span> {activity.ageRange}</p>
-                    <p><span className="font-medium">活动日期:</span> {activity.date}</p>
-                    <p><span className="font-medium">活动地点:</span> {activity.location}</p>
+                    <p><span className="font-medium">Category:</span> {activity.category || 'Family Activity'}</p>
+                    <p><span className="font-medium">Age Range:</span> {activity.ageRange}</p>
+                    <p><span className="font-medium">Date:</span> {activity.date}</p>
+                    <p><span className="font-medium">Location:</span> {activity.location}</p>
                     {activity.price === 0 && (
-                      <p className="text-green-600 font-semibold">🎉 免费活动</p>
+                      <p className="text-green-600 font-semibold">🎉 Free Activity</p>
                     )}
                   </div>
                 </div>
                 
                 <button className="w-full bg-green-500 text-white py-3 px-4 rounded-lg font-semibold hover:bg-green-600 transition duration-200">
-                  {activity.price === 0 ? '免费报名' : `立即报名 ¥${activity.price}`}
+                  {activity.price === 0 ? 'Register for Free' : `Register Now $${activity.price}`}
                 </button>
                 
                 <div className="text-center text-sm text-gray-500">
-                  <p>📞 如有疑问，请联系客服</p>
-                  <p>电话: 400-123-4567</p>
+                  <p>📞 For questions, please contact customer service</p>
+                  <p>Phone: 400-123-4567</p>
                 </div>
               </div>
             </div>

@@ -82,3 +82,124 @@ export async function GET(request, context) {
     }
   }
 }
+
+// 更新活动
+export async function PUT(request, context) {
+  let client;
+  try {
+    const { id } = await context.params;
+    const body = await request.json();
+
+    if (!id) {
+      return Response.json({ 
+        success: false, 
+        error: 'Activity ID is required' 
+      }, { status: 400 });
+    }
+
+    // 验证必需字段
+    if (!body.title || !body.description) {
+      return Response.json({ 
+        success: false, 
+        error: 'Title and description are required' 
+      }, { status: 400 });
+    }
+
+    // 连接数据库
+    client = new MongoClient(process.env.MONGODB_URI);
+    await client.connect();
+    
+    const db = client.db('kid-activity-platform');
+    
+    // 更新活动
+    const updateData = {
+      title: body.title,
+      description: body.description,
+      date: body.date || '',
+      location: body.location || '',
+      ageRange: body.ageRange || '',
+      price: body.price || 0,
+      images: body.images || [],
+      category: body.category || '',
+      status: body.status || 'active',
+      updatedAt: new Date()
+    };
+
+    const result = await db.collection('activities').updateOne(
+      { _id: new ObjectId(id) },
+      { $set: updateData }
+    );
+
+    if (result.matchedCount === 0) {
+      return Response.json({ 
+        success: false, 
+        error: 'Activity not found' 
+      }, { status: 404 });
+    }
+
+    return Response.json({ 
+      success: true, 
+      message: 'Activity updated successfully',
+      id: id
+    });
+    
+  } catch (error) {
+    console.error('Update activity error:', error);
+    return Response.json({ 
+      success: false, 
+      error: 'Failed to update activity: ' + error.message 
+    }, { status: 500 });
+  } finally {
+    if (client) {
+      await client.close();
+    }
+  }
+}
+
+// 删除活动
+export async function DELETE(request, context) {
+  let client;
+  try {
+    const { id } = await context.params;
+
+    if (!id) {
+      return Response.json({ 
+        success: false, 
+        error: 'Activity ID is required' 
+      }, { status: 400 });
+    }
+
+    // 连接数据库
+    client = new MongoClient(process.env.MONGODB_URI);
+    await client.connect();
+    
+    const db = client.db('kid-activity-platform');
+    
+    const result = await db.collection('activities').deleteOne({
+      _id: new ObjectId(id)
+    });
+
+    if (result.deletedCount === 0) {
+      return Response.json({ 
+        success: false, 
+        error: 'Activity not found' 
+      }, { status: 404 });
+    }
+
+    return Response.json({ 
+      success: true, 
+      message: 'Activity deleted successfully'
+    });
+    
+  } catch (error) {
+    console.error('Delete activity error:', error);
+    return Response.json({ 
+      success: false, 
+      error: 'Failed to delete activity: ' + error.message 
+    }, { status: 500 });
+  } finally {
+    if (client) {
+      await client.close();
+    }
+  }
+}

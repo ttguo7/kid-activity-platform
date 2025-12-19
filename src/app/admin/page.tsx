@@ -1,6 +1,7 @@
 'use client';
 
 import { useState } from 'react';
+import Link from 'next/link';
 
 export default function AdminPage() {
   const [formData, setFormData] = useState({
@@ -35,7 +36,7 @@ export default function AdminPage() {
       const result = await response.json();
 
       if (result.success) {
-        setMessage('✅ 活动添加成功！');
+        setMessage('✅ Activity added successfully!');
         // 清空表单
         setFormData({
           title: '',
@@ -47,10 +48,10 @@ export default function AdminPage() {
           category: ''
         });
       } else {
-        setMessage('❌ 添加失败: ' + result.error);
+        setMessage('❌ Failed: ' + result.error);
       }
     } catch (error) {
-      setMessage('❌ 网络错误: ' + error);
+      setMessage('❌ Network error: ' + error);
     } finally {
       setLoading(false);
     }
@@ -66,12 +67,17 @@ export default function AdminPage() {
   return (
     <div className="min-h-screen bg-gray-50 py-8">
       <div className="container mx-auto px-4 max-w-2xl">
-        <h1 className="text-3xl font-bold text-gray-800 mb-8">添加亲子活动</h1>
+        <div className="mb-6">
+          <Link href="/admin/manage" className="text-blue-500 hover:underline mb-4 inline-block">
+            → Manage All Activities (Add/Edit/Delete)
+          </Link>
+        </div>
+        <h1 className="text-3xl font-bold text-gray-800 mb-8">Add Activity</h1>
         
         <form onSubmit={handleSubmit} className="bg-white p-6 rounded-lg shadow-md space-y-4">
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-1">
-              活动标题 *
+              Activity Title *
             </label>
             <input
               type="text"
@@ -85,7 +91,7 @@ export default function AdminPage() {
 
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-1">
-              活动描述 *
+              Description *
             </label>
             <textarea
               name="description"
@@ -100,7 +106,7 @@ export default function AdminPage() {
           <div className="grid grid-cols-2 gap-4">
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-1">
-                日期
+                Date
               </label>
               <input
                 type="date"
@@ -113,7 +119,7 @@ export default function AdminPage() {
 
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-1">
-                价格
+                Price
               </label>
               <input
                 type="number"
@@ -127,7 +133,7 @@ export default function AdminPage() {
 
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-1">
-              地点
+              Location
             </label>
             <input
               type="text"
@@ -141,28 +147,28 @@ export default function AdminPage() {
           <div className="grid grid-cols-2 gap-4">
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-1">
-                适合年龄
+                Age Range
               </label>
               <input
                 type="text"
                 name="ageRange"
                 value={formData.ageRange}
                 onChange={handleChange}
-                placeholder="如: 3-6岁"
+                placeholder="e.g., 3-6 years"
                 className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
               />
             </div>
 
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-1">
-                分类
+                Category
               </label>
               <input
                 type="text"
                 name="category"
                 value={formData.category}
                 onChange={handleChange}
-                placeholder="如: 艺术创作"
+                placeholder="e.g., Faith Experiences"
                 className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
               />
             </div>
@@ -173,7 +179,7 @@ export default function AdminPage() {
             disabled={loading}
             className="w-full bg-blue-500 text-white py-2 px-4 rounded-md hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 disabled:bg-blue-300"
           >
-            {loading ? '添加中...' : '添加活动'}
+            {loading ? 'Adding...' : 'Add Activity'}
           </button>
 
           {message && (

@@ -81,57 +81,6 @@ export default async function ActivityDetailPage({
               </span>
             </div>
           </div>
-
-          {/* 活动图片 */}
-          {activity.images && activity.images.length > 0 && (
-            <div className="p-8 bg-gray-50">
-              <h2 className="text-xl font-semibold mb-4 text-gray-800">活动图片</h2>
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                {activity.images.map((imageUrl, index) => {
-                  // 检查是否是网站URL（以http开头且不是图片文件扩展名）
-                  const isWebsiteUrl = imageUrl.startsWith('http') && 
-                    !imageUrl.match(/\.(jpg|jpeg|png|gif|webp|svg)(\?|$)/i);
-                  
-                  if (isWebsiteUrl) {
-                    // 如果是网站URL，显示为链接卡片
-                    return (
-                      <a
-                        key={index}
-                        href={imageUrl}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="block bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow border-2 border-blue-200"
-                      >
-                        <div className="p-6">
-                          <div className="flex items-center justify-between mb-2">
-                            <h3 className="font-semibold text-gray-800">查看活动官网</h3>
-                            <span className="text-blue-500">🔗</span>
-                          </div>
-                          <p className="text-sm text-gray-600 break-all">{imageUrl}</p>
-                          <div className="mt-4 text-blue-600 text-sm font-medium">
-                            点击访问官网 →
-                          </div>
-                        </div>
-                      </a>
-                    );
-                  } else {
-                    // 如果是图片URL，使用Image组件显示
-                    return (
-                      <div key={index} className="relative w-full h-64 rounded-lg overflow-hidden shadow-md">
-                        <Image
-                          src={imageUrl}
-                          alt={`${activity.title} - 图片 ${index + 1}`}
-                          fill
-                          className="object-cover"
-                          sizes="(max-width: 768px) 100vw, 50vw"
-                        />
-                      </div>
-                    );
-                  }
-                })}
-              </div>
-            </div>
-          )}
           
           {/* 活动内容 */}
           <div className="p-8">
@@ -140,46 +89,24 @@ export default async function ActivityDetailPage({
                 <h2 className="text-xl font-semibold mb-4">活动介绍</h2>
                 <p className="text-gray-700 leading-relaxed whitespace-pre-line mb-6">{activity.description}</p>
                 
-                {/* 活动图片展示 - 在活动介绍板块中 */}
+                {/* 活动图片展示 - 在活动介绍板块中，直接显示图片 */}
                 {activity.images && activity.images.length > 0 && (
                   <div className="mt-6 mb-8">
                     <h3 className="text-lg font-semibold mb-4 text-gray-800">活动图片</h3>
                     <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
                       {activity.images.map((imageUrl, index) => {
-                        // 检查是否是网站URL（以http开头且不是图片文件扩展名）
-                        const isWebsiteUrl = imageUrl.startsWith('http') && 
-                          !imageUrl.match(/\.(jpg|jpeg|png|gif|webp|svg)(\?|$)/i);
-                        
-                        if (isWebsiteUrl) {
-                          // 如果是网站URL，显示为链接卡片
-                          return (
-                            <a
-                              key={index}
-                              href={imageUrl}
-                              target="_blank"
-                              rel="noopener noreferrer"
-                              className="block bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow border-2 border-blue-200 p-4"
-                            >
-                              <div className="text-center">
-                                <div className="text-4xl mb-2">🔗</div>
-                                <p className="text-sm text-gray-600 font-medium">查看官网</p>
-                              </div>
-                            </a>
-                          );
-                        } else {
-                          // 如果是图片URL，使用Image组件显示
-                          return (
-                            <div key={index} className="relative w-full aspect-square rounded-lg overflow-hidden shadow-md hover:shadow-lg transition-shadow">
-                              <Image
-                                src={imageUrl}
-                                alt={`${activity.title} - 图片 ${index + 1}`}
-                                fill
-                                className="object-cover"
-                                sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
-                              />
-                            </div>
-                          );
-                        }
+                        // 直接显示图片，不再检查是否为网站URL
+                        return (
+                          <div key={index} className="relative w-full aspect-square rounded-lg overflow-hidden shadow-md hover:shadow-lg transition-shadow">
+                            <Image
+                              src={imageUrl}
+                              alt={`${activity.title} - 图片 ${index + 1}`}
+                              fill
+                              className="object-cover"
+                              sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+                            />
+                          </div>
+                        );
                       })}
                     </div>
                   </div>
